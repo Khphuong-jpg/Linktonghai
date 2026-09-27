@@ -1,0 +1,1291 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>LINKS • Bộ sưu tập</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --pink:#ff2d95;
+  --pink-soft:#ff7ac6;
+  --pink-deep:#b3005e;
+  --gold:#ffd166;
+  --border:rgba(255,45,149,.22);
+}
+
+html,body{height:100%}
+
+body{
+  font-family:'Space Grotesk',system-ui,-apple-system,sans-serif;
+  background:#05000a;color:#fff;min-height:100vh;
+  overflow-x:hidden;position:relative;padding-bottom:120px;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ===== NỀN ===== */
+body::before{
+  content:'';position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 10% 0%, rgba(255,45,149,.35), transparent 55%),
+    radial-gradient(ellipse 70% 60% at 90% 100%, rgba(255,110,199,.22), transparent 55%),
+    radial-gradient(ellipse 60% 50% at 50% 50%, rgba(150,0,90,.20), transparent 60%);
+  z-index:-3;animation:breathe 12s ease-in-out infinite alternate;
+}
+@keyframes breathe{from{transform:scale(1);opacity:.85}to{transform:scale(1.12);opacity:1}}
+
+body::after{
+  content:'';position:fixed;inset:0;
+  background-image:
+    linear-gradient(rgba(255,45,149,.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,45,149,.05) 1px, transparent 1px);
+  background-size:56px 56px;
+  -webkit-mask-image:radial-gradient(ellipse at center, #000 15%, transparent 72%);
+  mask-image:radial-gradient(ellipse at center, #000 15%, transparent 72%);
+  z-index:-2;pointer-events:none;
+}
+
+.orb{position:fixed;border-radius:50%;filter:blur(90px);opacity:.45;z-index:-1;pointer-events:none;animation:float 14s ease-in-out infinite}
+.orb1{width:340px;height:340px;background:#ff2d95;top:-90px;left:-90px}
+.orb2{width:280px;height:280px;background:#ff7ac6;bottom:-80px;right:-70px;animation-delay:-6s}
+@keyframes float{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(40px,-30px) scale(1.15)}}
+
+/* ===== HEADER ===== */
+header{text-align:center;padding:86px 20px 30px;position:relative}
+h1{
+  font-size:clamp(2.2rem,7.5vw,4rem);font-weight:700;letter-spacing:-.035em;line-height:1;
+  background:linear-gradient(115deg,#fff 8%,var(--pink-soft) 42%,var(--pink) 58%,#fff 92%);
+  background-size:220% auto;-webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:shine 6s linear infinite;
+  filter:drop-shadow(0 0 32px rgba(255,45,149,.55));
+}
+@keyframes shine{to{background-position:220% center}}
+.sub{margin-top:14px;font-size:.75rem;letter-spacing:.42em;text-transform:uppercase;color:rgba(255,150,210,.65);font-weight:500}
+
+/* ===== TOOLBAR ===== */
+.toolbar{
+  max-width:760px;margin:0 auto 14px;padding:0 22px;
+  display:flex;flex-direction:column;gap:10px;
+}
+.search-wrap{position:relative}
+.search-wrap svg{
+  position:absolute;left:14px;top:50%;transform:translateY(-50%);
+  width:16px;height:16px;stroke:rgba(255,150,210,.55);fill:none;stroke-width:2;
+  pointer-events:none;
+}
+#searchInput{
+  width:100%;padding:12px 16px 12px 40px;
+  font-family:inherit;font-size:.9rem;color:#fff;
+  background:rgba(255,45,149,.06);border:1px solid var(--border);
+  border-radius:14px;outline:none;transition:.25s;
+  backdrop-filter:blur(10px);
+}
+#searchInput::placeholder{color:rgba(255,150,210,.4)}
+#searchInput:focus{border-color:var(--pink);background:rgba(255,45,149,.12);box-shadow:0 0 0 3px rgba(255,45,149,.16)}
+
+.stats-row{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(255,150,210,.55);
+}
+.stats-row b{color:var(--pink-soft);font-weight:600}
+
+/* Tag chips */
+.tag-filter{display:flex;gap:6px;flex-wrap:wrap;max-width:760px;margin:0 auto 16px;padding:0 22px}
+.tag-filter:empty{display:none}
+.chip{
+  padding:5px 12px;font-size:.7rem;font-family:inherit;letter-spacing:.05em;
+  border-radius:999px;border:1px solid var(--border);
+  background:rgba(255,45,149,.06);color:rgba(255,180,225,.85);
+  cursor:pointer;transition:.2s;
+}
+.chip:hover{background:rgba(255,45,149,.18);color:#fff}
+.chip.active{background:var(--pink);color:#fff;border-color:var(--pink);box-shadow:0 0 16px rgba(255,45,149,.5)}
+
+/* ===== LIST — 1 LINK / DÒNG ===== */
+.list{
+  max-width:760px;margin:0 auto;padding:0 22px 60px;
+  display:flex;flex-direction:column;gap:11px;
+}
+
+.empty{
+  text-align:center;padding:70px 20px;
+  color:rgba(255,150,210,.55);font-size:.88rem;line-height:1.8;
+  border:1px dashed rgba(255,45,149,.22);border-radius:20px;
+  background:rgba(255,45,149,.03);
+}
+.empty .big{font-size:2.4rem;display:block;margin-bottom:10px;opacity:.7}
+.empty b{color:var(--pink-soft);font-weight:600}
+
+/* ===== ROW ===== */
+.row{
+  position:relative;
+  display:flex;align-items:center;gap:14px;
+  padding:12px 14px 12px 16px;
+  border-radius:18px;
+  background:linear-gradient(120deg,rgba(255,45,149,.09),rgba(255,255,255,.02) 50%,rgba(255,45,149,.06));
+  border:1px solid var(--border);
+  backdrop-filter:blur(16px) saturate(150%);
+  -webkit-backdrop-filter:blur(16px) saturate(150%);
+  box-shadow:0 6px 24px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.06);
+  cursor:pointer;overflow:hidden;
+  transition:transform .3s cubic-bezier(.2,.8,.3,1),border-color .3s,box-shadow .3s,opacity .3s;
+  animation:rowIn .45s both cubic-bezier(.2,.8,.3,1);
+}
+@keyframes rowIn{from{opacity:0;transform:translateX(-14px)}to{opacity:1;transform:translateX(0)}}
+
+.row::before{
+  content:'';position:absolute;top:-60%;left:-160%;width:50%;height:220%;
+  background:linear-gradient(100deg,transparent 20%,rgba(255,255,255,.11) 50%,transparent 80%);
+  transform:skewX(-22deg);animation:shimmer 6s ease-in-out infinite;pointer-events:none;
+}
+.row:nth-child(2n)::before{animation-delay:-2s}
+.row:nth-child(3n)::before{animation-delay:-4s}
+@keyframes shimmer{0%{left:-160%}55%,100%{left:160%}}
+
+.row:hover{
+  transform:translateX(4px);
+  border-color:rgba(255,45,149,.55);
+  box-shadow:0 12px 40px rgba(255,45,149,.28),inset 0 1px 0 rgba(255,255,255,.1);
+}
+.row:active{transform:translateX(2px) scale(.995)}
+
+.row.dragging{opacity:.4;transform:scale(.98)}
+.row.drag-over{border-color:var(--gold);box-shadow:0 0 0 2px rgba(255,209,102,.4)}
+
+.row.favorite{
+  border-color:rgba(255,209,102,.45);
+  box-shadow:0 6px 24px rgba(255,209,102,.18), inset 0 1px 0 rgba(255,255,255,.08);
+}
+.row.favorite::after{
+  content:'';position:absolute;inset:0;border-radius:inherit;
+  background:radial-gradient(circle at 0% 50%, rgba(255,209,102,.14), transparent 55%);
+  pointer-events:none;
+}
+
+/* Handle kéo */
+.drag-handle{
+  display:none;flex-shrink:0;
+  width:20px;height:34px;
+  align-items:center;justify-content:center;
+  color:rgba(255,150,210,.5);cursor:grab;
+  font-size:16px;line-height:1;letter-spacing:-2px;
+  user-select:none;
+}
+body.admin .drag-handle{display:flex}
+.drag-handle:hover{color:var(--pink-soft)}
+.drag-handle:active{cursor:grabbing}
+
+.avatar{
+  width:52px;height:52px;border-radius:50%;
+  display:grid;place-items:center;flex-shrink:0;
+  font-weight:700;font-size:1.05rem;color:#fff;overflow:hidden;
+  border:2px solid rgba(255,45,149,.55);
+  box-shadow:0 0 18px rgba(255,45,149,.4), inset 0 0 12px rgba(255,255,255,.1);
+  transition:box-shadow .3s,transform .3s;
+  position:relative;z-index:1;
+}
+.row.favorite .avatar{border-color:rgba(255,209,102,.7);box-shadow:0 0 20px rgba(255,209,102,.4), inset 0 0 12px rgba(255,255,255,.1)}
+.avatar img{width:100%;height:100%;object-fit:cover;display:block}
+.row:hover .avatar{transform:scale(1.06);box-shadow:0 0 26px rgba(255,45,149,.65), inset 0 0 12px rgba(255,255,255,.15)}
+
+.info{flex:1;min-width:0;position:relative;z-index:1}
+.name{
+  font-weight:600;font-size:.98rem;color:#ffe9f6;
+  letter-spacing:.01em;word-break:break-word;line-height:1.3;
+  display:flex;align-items:center;gap:7px;
+}
+.name .star-badge{
+  color:var(--gold);font-size:.85rem;
+  filter:drop-shadow(0 0 6px rgba(255,209,102,.8));
+}
+.tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px}
+.tag-pill{
+  font-size:9.5px;letter-spacing:.06em;padding:2px 8px;border-radius:999px;
+  background:rgba(255,45,149,.14);color:var(--pink-soft);
+  border:1px solid rgba(255,45,149,.2);
+}
+.meta{
+  font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;
+  color:rgba(255,150,210,.4);margin-top:5px;
+}
+
+/* Actions */
+.actions{display:flex;gap:5px;flex-shrink:0;position:relative;z-index:2}
+.icon-btn{
+  width:32px;height:32px;border-radius:9px;
+  border:1px solid rgba(255,45,149,.28);
+  background:rgba(15,0,10,.8);color:var(--pink-soft);
+  font-size:13px;line-height:1;cursor:pointer;
+  display:grid;place-items:center;
+  transition:.2s;font-family:inherit;
+  backdrop-filter:blur(6px);
+}
+.icon-btn:hover{background:var(--pink);color:#fff;border-color:var(--pink);transform:translateY(-1px)}
+.icon-btn.gold{color:var(--gold);border-color:rgba(255,209,102,.35)}
+.icon-btn.gold:hover{background:var(--gold);color:#000;border-color:var(--gold)}
+.icon-btn.gold.active{background:var(--gold);color:#000;border-color:var(--gold)}
+.icon-btn.danger:hover{background:#ff2d5e;border-color:#ff2d5e}
+body:not(.admin) .admin-only{display:none}
+
+.chevron{
+  color:rgba(255,150,210,.35);font-size:16px;
+  margin-left:2px;transition:transform .3s,color .3s;
+}
+.row:hover .chevron{color:var(--pink);transform:translateX(3px)}
+
+/* ===== Ô NHẬP MÃ ===== */
+.code-box{position:fixed;bottom:16px;right:16px;z-index:70;text-align:right}
+.code-box .hint{
+  display:block;font-size:8px;letter-spacing:.3em;
+  color:rgba(255,120,200,.35);margin-bottom:4px;text-transform:uppercase;
+}
+.code-box input{
+  width:70px;padding:7px 6px;
+  font-family:'Space Grotesk',monospace;font-size:10px;
+  letter-spacing:3px;text-align:center;color:#ff9ad4;
+  background:rgba(255,45,149,.06);border:1px solid rgba(255,45,149,.16);
+  border-radius:9px;outline:none;opacity:.3;
+  backdrop-filter:blur(10px);
+  transition:opacity .3s,width .3s,border-color .3s,box-shadow .3s;
+}
+.code-box input::placeholder{color:rgba(255,120,200,.35);letter-spacing:1px;font-size:9px}
+.code-box input:hover{opacity:.75}
+.code-box input:focus{opacity:1;width:92px;border-color:var(--pink);box-shadow:0 0 20px rgba(255,45,149,.55)}
+
+/* ===== ADMIN BAR ===== */
+.admin-bar{
+  position:fixed;top:16px;left:50%;transform:translateX(-50%);
+  display:flex;align-items:center;gap:8px;padding:7px 9px 7px 16px;
+  border-radius:999px;background:rgba(20,0,13,.94);
+  border:1px solid rgba(255,45,149,.45);
+  backdrop-filter:blur(22px);
+  box-shadow:0 12px 45px rgba(255,45,149,.5);
+  z-index:90;font-size:10.5px;letter-spacing:.2em;color:var(--pink-soft);
+  animation:popIn .4s cubic-bezier(.2,.9,.3,1.3);
+  white-space:nowrap;
+}
+.admin-bar[hidden]{display:none}
+.admin-bar .dot{width:7px;height:7px;border-radius:50%;background:var(--pink);box-shadow:0 0 10px var(--pink);animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+
+.admin-bar button{
+  font-family:inherit;font-size:11px;letter-spacing:.04em;padding:7px 13px;
+  border-radius:999px;border:1px solid rgba(255,45,149,.35);
+  background:rgba(255,45,149,.1);color:#ffd6ee;cursor:pointer;transition:.22s;
+}
+.admin-bar button:hover{background:var(--pink);color:#fff;border-color:var(--pink)}
+.admin-bar button.ghost{background:transparent;color:rgba(255,150,210,.7)}
+.admin-bar button.ghost:hover{background:rgba(255,45,149,.2);color:#fff}
+.admin-bar button.add{background:linear-gradient(120deg,var(--pink),#ff5fb0);color:#fff;border-color:transparent;font-weight:600}
+
+@keyframes popIn{from{opacity:0;transform:translate(-50%,-16px) scale(.9)}to{opacity:1;transform:translate(-50%,0) scale(1)}}
+
+/* ===== MODAL ===== */
+.modal{
+  position:fixed;inset:0;background:rgba(5,0,10,.82);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  display:grid;place-items:center;z-index:100;padding:20px;
+  animation:fadeIn .22s ease;overflow-y:auto;
+}
+.modal[hidden]{display:none}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+.panel{
+  width:100%;max-width:440px;max-height:92vh;overflow-y:auto;
+  background:linear-gradient(160deg,rgba(255,45,149,.14),rgba(12,0,9,.96));
+  border:1px solid var(--border);border-radius:26px;padding:28px 24px 24px;
+  box-shadow:0 30px 80px rgba(0,0,0,.75), inset 0 1px 0 rgba(255,255,255,.08);
+  animation:popScale .38s cubic-bezier(.2,.9,.3,1.2);position:relative;
+  margin:auto;
+}
+@keyframes popScale{from{opacity:0;transform:scale(.9) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+
+.panel h2{
+  font-size:1.25rem;font-weight:700;letter-spacing:-.02em;margin-bottom:4px;
+  background:linear-gradient(110deg,#fff,var(--pink-soft));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.panel .sub2{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,150,210,.55);margin-bottom:20px}
+
+/* Avatar picker */
+.avatar-picker{
+  display:flex;align-items:center;gap:16px;
+  padding:14px;margin-bottom:18px;
+  background:rgba(255,255,255,.03);
+  border:1px dashed rgba(255,45,149,.25);
+  border-radius:18px;
+}
+.avatar-preview{
+  width:72px;height:72px;border-radius:50%;flex-shrink:0;
+  display:grid;place-items:center;font-weight:700;font-size:1.4rem;
+  color:#fff;overflow:hidden;
+  border:2px solid rgba(255,45,149,.55);
+  box-shadow:0 0 22px rgba(255,45,149,.45), inset 0 0 12px rgba(255,255,255,.12);
+  background:linear-gradient(135deg,#ff2d95,#b3005e);
+}
+.avatar-preview img{width:100%;height:100%;object-fit:cover;display:block}
+.picker-buttons{display:flex;flex-direction:column;gap:6px;flex:1;min-width:0}
+.btn-file{
+  display:flex;align-items:center;gap:8px;
+  padding:9px 13px;font-family:inherit;font-size:.78rem;font-weight:500;
+  letter-spacing:.02em;border-radius:11px;
+  border:1px solid rgba(255,45,149,.3);
+  background:rgba(255,45,149,.09);color:#ffd6ee;
+  cursor:pointer;transition:.2s;
+}
+.btn-file:hover{background:rgba(255,45,149,.22);border-color:var(--pink)}
+.btn-file svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8;flex-shrink:0}
+.btn-clear{
+  padding:9px 13px;font-family:inherit;font-size:.78rem;
+  border-radius:11px;border:1px solid rgba(255,255,255,.12);
+  background:transparent;color:rgba(255,255,255,.55);
+  cursor:pointer;transition:.2s;
+}
+.btn-clear:hover{background:rgba(255,60,90,.18);color:#ff8fa8;border-color:rgba(255,60,90,.4)}
+
+/* Fields */
+.field{margin-bottom:14px}
+.field label{
+  display:block;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(255,150,210,.85);margin-bottom:6px;font-weight:600;
+}
+.field label .num{color:var(--pink);margin-right:6px;font-size:.9rem}
+.field input, .field textarea{
+  width:100%;padding:12px 14px;font-family:inherit;font-size:.9rem;color:#fff;
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,45,149,.25);
+  border-radius:12px;outline:none;transition:.25s;
+}
+.field input::placeholder, .field textarea::placeholder{color:rgba(255,255,255,.25)}
+.field input:focus, .field textarea:focus{border-color:var(--pink);background:rgba(255,45,149,.1);box-shadow:0 0 0 3px rgba(255,45,149,.16)}
+.field .hint2{font-size:.68rem;color:rgba(255,150,210,.45);margin-top:5px;line-height:1.5}
+
+.toggle-row{
+  display:flex;align-items:center;gap:10px;
+  padding:11px 14px;margin-bottom:14px;
+  background:rgba(255,209,102,.06);
+  border:1px solid rgba(255,209,102,.22);
+  border-radius:12px;cursor:pointer;transition:.2s;
+}
+.toggle-row:hover{background:rgba(255,209,102,.12)}
+.toggle-row input{display:none}
+.toggle-row .box{
+  width:20px;height:20px;border-radius:6px;flex-shrink:0;
+  border:1.5px solid rgba(255,209,102,.5);
+  display:grid;place-items:center;transition:.2s;
+  color:#000;font-size:13px;font-weight:800;
+}
+.toggle-row input:checked + .box{background:var(--gold);border-color:var(--gold)}
+.toggle-row input:checked + .box::after{content:'✓'}
+.toggle-row .lbl{font-size:.82rem;color:#ffeab8;letter-spacing:.02em}
+
+.actions{display:flex;gap:9px;margin-top:16px}
+.actions button{
+  flex:1;padding:13px;font-family:inherit;font-size:.83rem;font-weight:600;
+  letter-spacing:.06em;border-radius:13px;cursor:pointer;
+  border:1px solid transparent;transition:.25s;
+}
+.btn-primary{background:linear-gradient(120deg,var(--pink),#ff5fb0);color:#fff;box-shadow:0 8px 26px rgba(255,45,149,.42)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 34px rgba(255,45,149,.6)}
+.btn-ghost{background:rgba(255,255,255,.05);color:rgba(255,255,255,.75);border-color:rgba(255,255,255,.12)!important}
+.btn-ghost:hover{background:rgba(255,255,255,.1)}
+.btn-gold{background:linear-gradient(120deg,var(--gold),#ffb340);color:#1a0a00;font-weight:700}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(255,209,102,.5)}
+
+.close-x{
+  position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:10px;
+  border:1px solid rgba(255,45,149,.25);background:rgba(0,0,0,.35);color:var(--pink-soft);
+  cursor:pointer;font-size:15px;display:grid;place-items:center;transition:.22s;font-family:inherit;
+}
+.close-x:hover{background:var(--pink);color:#fff;border-color:var(--pink)}
+
+.note{
+  font-size:.72rem;line-height:1.6;color:rgba(255,150,210,.7);
+  background:rgba(255,45,149,.08);border-left:2px solid var(--pink);
+  padding:11px 13px;border-radius:0 10px 10px 0;margin-bottom:14px;
+}
+.note b{color:var(--pink-soft)}
+
+#exportArea, #importArea{
+  width:100%;height:170px;padding:12px;
+  font-family:'SF Mono',Menlo,Consolas,monospace;font-size:11px;line-height:1.5;
+  color:#ffb8e0;background:rgba(0,0,0,.55);
+  border:1px solid rgba(255,45,149,.25);border-radius:13px;
+  outline:none;resize:vertical;margin-bottom:14px;
+}
+
+.confirm-text{
+  font-size:.9rem;line-height:1.6;color:#ffe9f6;
+  padding:14px;border-radius:14px;
+  background:rgba(255,45,149,.08);border:1px solid rgba(255,45,149,.2);
+  margin-bottom:18px;word-break:break-word;
+}
+.confirm-text b{color:var(--pink-soft)}
+
+/* ===== TOAST ===== */
+.toast{
+  position:fixed;top:78px;left:50%;transform:translate(-50%,-24px);
+  padding:11px 22px;border-radius:999px;background:rgba(20,0,13,.95);
+  border:1px solid var(--border);backdrop-filter:blur(18px);color:#ffd6ee;
+  font-size:.8rem;font-weight:500;letter-spacing:.04em;
+  box-shadow:0 12px 40px rgba(255,45,149,.4);opacity:0;pointer-events:none;
+  transition:opacity .3s,transform .3s;z-index:200;white-space:nowrap;max-width:90vw;
+  overflow:hidden;text-overflow:ellipsis;
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-track{background:#0a0008}
+::-webkit-scrollbar-thumb{background:linear-gradient(var(--pink),var(--pink-deep));border-radius:8px}
+::selection{background:var(--pink);color:#fff}
+
+@media(max-width:560px){
+  header{padding:78px 16px 22px}
+  .list, .toolbar, .tag-filter{padding-left:15px;padding-right:15px}
+  .row{padding:11px 11px 11px 13px;gap:11px;border-radius:16px}
+  .avatar{width:46px;height:46px;font-size:.95rem}
+  .name{font-size:.9rem}
+  .icon-btn{width:29px;height:29px;font-size:12px}
+  .admin-bar{font-size:10px;padding:6px 7px 6px 13px;letter-spacing:.1em;gap:5px;top:12px}
+  .admin-bar button{padding:6px 9px;font-size:10px}
+  .toast{top:70px;font-size:.74rem;padding:10px 16px}
+  .drag-handle{width:14px;font-size:13px}
+}
+</style>
+</head>
+<body>
+
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+
+<header>
+  <h1>MY LINKS</h1>
+  <p class="sub">Bộ sưu tập liên kết</p>
+</header>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <div class="search-wrap">
+    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+    <input id="searchInput" type="text" placeholder="Tìm theo tên hoặc tag..." autocomplete="off">
+  </div>
+  <div class="stats-row">
+    <span id="statsLeft">0 liên kết</span>
+    <span id="statsRight"></span>
+  </div>
+</div>
+
+<!-- TAG FILTER -->
+<div class="tag-filter" id="tagFilter"></div>
+
+<!-- LIST -->
+<main class="list" id="list"></main>
+
+<!-- ADMIN BAR (top) -->
+<div class="admin-bar" id="adminBar" hidden>
+  <span class="dot"></span>
+  <span>ADMIN</span>
+  <button class="add" id="addBtn" type="button">+ Thêm</button>
+  <button id="exportBtn" type="button">Export</button>
+  <button id="importBtn" type="button">Import</button>
+  <button class="ghost" id="exitBtn" type="button">Thoát</button>
+</div>
+
+<!-- CODE INPUT -->
+<div class="code-box">
+  <span class="hint">code</span>
+  <input id="codeInput" type="password" maxlength="6" placeholder="••••"
+         autocomplete="off" inputmode="numeric" spellcheck="false">
+</div>
+
+<!-- ===== MODAL: THÊM / SỬA ===== -->
+<div class="modal" id="modal" hidden>
+  <div class="panel">
+    <button class="close-x" id="closeModal" type="button">✕</button>
+    <h2 id="modalTitle">Thêm link mới</h2>
+    <p class="sub2">Điền thông tin rồi bấm Lưu</p>
+
+    <!-- AVATAR PICKER -->
+    <div class="avatar-picker">
+      <div class="avatar-preview" id="previewAvatar">?</div>
+      <div class="picker-buttons">
+        <label class="btn-file" for="fileLibrary">
+          <svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h3l2-2h6l2 2h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"/><circle cx="12" cy="13" r="3.5"/></svg>
+          Thư viện ảnh
+        </label>
+        <input type="file" id="fileLibrary" accept="image/*" hidden>
+
+        <label class="btn-file" for="fileCamera">
+          <svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="14" rx="3"/><circle cx="12" cy="13" r="4"/><path d="M8 6l2-3h4l2 3"/></svg>
+          Chụp ảnh
+        </label>
+        <input type="file" id="fileCamera" accept="image/*" capture="user" hidden>
+
+        <button class="btn-clear" id="clearAvatarBtn" type="button" style="display:none">✕ Xoá ảnh</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label><span class="num">①</span>Tên hiển thị (ai cũng thấy)</label>
+      <input id="fName" type="text" placeholder="Ví dụ: Trang chủ" maxlength="60" autocomplete="off">
+    </div>
+
+    <div class="field">
+      <label><span class="num">②</span>Link / URL (được ẩn với người xem)</label>
+      <input id="fUrl" type="text" placeholder="https://..." spellcheck="false" autocomplete="off">
+    </div>
+
+    <div class="field">
+      <label><span class="num">③</span>Tags (tuỳ chọn, cách nhau bằng dấu phẩy)</label>
+      <input id="fTags" type="text" placeholder="Ví dụ: học tập, giải trí" autocomplete="off">
+      <p class="hint2">Dùng để lọc và phân loại link</p>
+    </div>
+
+    <label class="toggle-row">
+      <input type="checkbox" id="fFavorite">
+      <span class="box"></span>
+      <span class="lbl">⭐ Đánh dấu yêu thích</span>
+    </label>
+
+    <div class="actions">
+      <button class="btn-ghost" id="cancelBtn" type="button">Huỷ</button>
+      <button class="btn-primary" id="saveBtn" type="button">💾 Lưu link</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL: XÁC NHẬN XOÁ ===== -->
+<div class="modal" id="confirmModal" hidden>
+  <div class="panel" style="max-width:380px">
+    <h2 style="margin-bottom:10px">Xoá link?</h2>
+    <p class="sub2">Hành động này không thể hoàn tác</p>
+    <div class="confirm-text" id="confirmText"></div>
+    <div class="actions">
+      <button class="btn-ghost" id="confirmCancel" type="button">Huỷ</button>
+      <button class="btn-primary" id="confirmDelete" type="button" style="background:linear-gradient(120deg,#ff2d5e,#c2003f)">🗑️ Xoá</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL: EXPORT ===== -->
+<div class="modal" id="exportModal" hidden>
+  <div class="panel">
+    <button class="close-x" id="closeExport" type="button">✕</button>
+    <h2>📤 Xuất dữ liệu</h2>
+    <p class="sub2">Đưa link lên GitHub cho mọi người</p>
+
+    <div class="note">
+      Copy JSON bên dưới → dán vào biến <b>DEFAULT_LINKS</b> trong file
+      <b>index.html</b> → push lên GitHub. Như vậy <b>mọi người</b> vào web sẽ thấy
+      danh sách này.
+    </div>
+
+    <textarea id="exportArea" readonly spellcheck="false"></textarea>
+
+    <div class="actions">
+      <button class="btn-ghost" id="resetBtn" type="button">Reset</button>
+      <button class="btn-primary" id="copyBtn" type="button">📋 Copy JSON</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL: IMPORT ===== -->
+<div class="modal" id="importModal" hidden>
+  <div class="panel">
+    <button class="close-x" id="closeImport" type="button">✕</button>
+    <h2>📥 Nhập dữ liệu</h2>
+    <p class="sub2">Dán JSON hoặc chọn file .json</p>
+
+    <div class="note">
+      Dán mảng JSON kiểu <b>[{"name":"...","url":"..."}]</b> hoặc chọn file JSON
+      đã export trước đó. Nhập sẽ <b>thay thế</b> toàn bộ danh sách hiện tại.
+    </div>
+
+    <textarea id="importArea" placeholder='[{"name":"Google","url":"https://google.com","tags":["search"]}]' spellcheck="false"></textarea>
+
+    <div class="field">
+      <label>Hoặc chọn file</label>
+      <input type="file" id="importFile" accept=".json,application/json">
+    </div>
+
+    <div class="actions">
+      <button class="btn-ghost" id="importCancel" type="button">Huỷ</button>
+      <button class="btn-gold" id="importConfirm" type="button">📥 Nhập</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* =========================================================
+   CẤU HÌNH
+   ========================================================= */
+const ADMIN_CODE  = '072019';
+const STORAGE_KEY = 'pink_links_v2';
+
+/* =========================================================
+   DỮ LIỆU MẶC ĐỊNH — ban đầu TRỐNG, bạn tự thêm
+   Sau khi thêm: bấm Export → copy → dán vào đây → push GitHub
+   ========================================================= */
+const DEFAULT_LINKS = [];
+
+/* =========================================================
+   STATE
+   ========================================================= */
+let links      = loadLinks();
+let isAdmin    = false;
+let editingId  = null;
+let deletingId = null;
+let dragIndex  = null;
+let searchQ    = '';
+let activeTag  = null;
+let pendingAvatar = ''; // base64 tạm khi đang sửa
+
+const HUES = [320, 335, 300, 350, 285, 355, 310];
+
+/* =========================================================
+   STORAGE
+   ========================================================= */
+function loadLinks() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) return parsed;
+    }
+  } catch (e) {}
+  return JSON.parse(JSON.stringify(DEFAULT_LINKS));
+}
+
+function saveLinks() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(links));
+    return true;
+  } catch (e) {
+    toast('⚠ Bộ nhớ đầy — thử xoá vài avatar');
+    return false;
+  }
+}
+
+/* =========================================================
+   HELPERS
+   ========================================================= */
+function initials(name) {
+  const parts = String(name).trim().split(/\s+/).filter(Boolean);
+  if (!parts.length) return '?';
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+}
+
+function gradientFor(str) {
+  let h = 0;
+  for (let i = 0; i < str.length; i++) h = (h * 31 + str.charCodeAt(i)) >>> 0;
+  const hue = HUES[h % HUES.length];
+  return `linear-gradient(135deg, hsl(${hue} 92% 58%), hsl(${(hue + 28) % 360} 88% 42%))`;
+}
+
+function uid() { return 'l' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
+
+let toastTimer;
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2600);
+}
+
+/* Nén ảnh từ File → base64 data URL, giới hạn 256px */
+function fileToCompressedDataURL(file, maxDim = 256, quality = 0.82) {
+  return new Promise((resolve, reject) => {
+    if (!file || !file.type.startsWith('image/')) {
+      reject(new Error('Không phải file ảnh'));
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = e => {
+      const img = new Image();
+      img.onload = () => {
+        let w = img.naturalWidth, h = img.naturalHeight;
+        if (w > maxDim || h > maxDim) {
+          if (w > h) { h = Math.round(h * maxDim / w); w = maxDim; }
+          else       { w = Math.round(w * maxDim / h); h = maxDim; }
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        // Nền tối để ảnh trong suốt không bị đen
+        ctx.fillStyle = '#1a0010';
+        ctx.fillRect(0, 0, w, h);
+        ctx.drawImage(img, 0, 0, w, h);
+        try {
+          resolve(canvas.toDataURL('image/jpeg', quality));
+        } catch (err) { reject(err); }
+      };
+      img.onerror = () => reject(new Error('Ảnh lỗi'));
+      img.src = e.target.result;
+    };
+    reader.onerror = () => reject(new Error('Đọc file lỗi'));
+    reader.readAsDataURL(file);
+  });
+}
+
+/* =========================================================
+   RENDER
+   ========================================================= */
+const listEl       = document.getElementById('list');
+const tagFilterEl  = document.getElementById('tagFilter');
+const searchInput  = document.getElementById('searchInput');
+const statsLeft    = document.getElementById('statsLeft');
+const statsRight   = document.getElementById('statsRight');
+
+function getFiltered() {
+  const q = searchQ.trim().toLowerCase();
+  return links.filter(l => {
+    if (activeTag && !(l.tags || []).includes(activeTag)) return false;
+    if (q) {
+      const hay = (l.name + ' ' + (l.tags || []).join(' ')).toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
+    return true;
+  });
+}
+
+function renderTagFilter() {
+  const allTags = [...new Set(links.flatMap(l => l.tags || []))].sort();
+  tagFilterEl.innerHTML = '';
+  if (!allTags.length) return;
+
+  const allChip = document.createElement('button');
+  allChip.className = 'chip' + (!activeTag ? ' active' : '');
+  allChip.textContent = 'Tất cả';
+  allChip.addEventListener('click', () => { activeTag = null; render(); });
+  tagFilterEl.appendChild(allChip);
+
+  allTags.forEach(tag => {
+    const chip = document.createElement('button');
+    chip.className = 'chip' + (activeTag === tag ? ' active' : '');
+    chip.textContent = '#' + tag;
+    chip.addEventListener('click', () => {
+      activeTag = activeTag === tag ? null : tag;
+      render();
+    });
+    tagFilterEl.appendChild(chip);
+  });
+}
+
+function renderStats() {
+  const total = links.length;
+  const favs  = links.filter(l => l.favorite).length;
+  const shown = getFiltered().length;
+  statsLeft.innerHTML = `<b>${total}</b> liên kết${favs ? ` · <b>${favs}</b> ⭐` : ''}`;
+  statsRight.textContent = (searchQ || activeTag) ? `Hiện ${shown}` : '';
+}
+
+function render() {
+  renderTagFilter();
+  renderStats();
+
+  listEl.innerHTML = '';
+  const filtered = getFiltered();
+
+  if (!links.length) {
+    const e = document.createElement('div');
+    e.className = 'empty';
+    e.innerHTML = isAdmin
+      ? '<span class="big">✦</span>Chưa có link nào.<br>Bấm <b>+ Thêm</b> trên thanh ADMIN để tạo link đầu tiên.'
+      : '<span class="big">✦</span>Chưa có liên kết nào';
+    listEl.appendChild(e);
+    return;
+  }
+
+  if (!filtered.length) {
+    const e = document.createElement('div');
+    e.className = 'empty';
+    e.innerHTML = '<span class="big">🔍</span>Không tìm thấy link nào khớp.';
+    listEl.appendChild(e);
+    return;
+  }
+
+  filtered.forEach((link, i) => {
+    listEl.appendChild(buildRow(link, links.indexOf(link), i));
+  });
+}
+
+function buildRow(link, realIndex, viewIndex) {
+  const row = document.createElement('article');
+  row.className = 'row' + (link.favorite ? ' favorite' : '');
+  row.style.animationDelay = Math.min(viewIndex * 40, 500) + 'ms';
+  row.dataset.id = link.id;
+
+  if (isAdmin) {
+    row.draggable = true;
+    row.addEventListener('dragstart', e => {
+      dragIndex = realIndex;
+      row.classList.add('dragging');
+      try { e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', link.id); } catch(_){}
+    });
+    row.addEventListener('dragend', () => {
+      row.classList.remove('dragging');
+      document.querySelectorAll('.row.drag-over').forEach(el => el.classList.remove('drag-over'));
+    });
+    row.addEventListener('dragover', e => {
+      if (dragIndex === null || dragIndex === realIndex) return;
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      row.classList.add('drag-over');
+    });
+    row.addEventListener('dragleave', () => row.classList.remove('drag-over'));
+    row.addEventListener('drop', e => {
+      e.preventDefault();
+      row.classList.remove('drag-over');
+      if (dragIndex === null || dragIndex === realIndex) return;
+      const [moved] = links.splice(dragIndex, 1);
+      links.splice(realIndex, 0, moved);
+      dragIndex = null;
+      saveLinks();
+      render();
+    });
+  }
+
+  /* Handle kéo */
+  const handle = document.createElement('div');
+  handle.className = 'drag-handle';
+  handle.textContent = '⋮⋮';
+  handle.title = 'Kéo để sắp xếp';
+  row.appendChild(handle);
+
+  /* Avatar */
+  const av = document.createElement('div');
+  av.className = 'avatar';
+  if (link.avatar) {
+    const img = document.createElement('img');
+    img.src = link.avatar;
+    img.alt = '';
+    img.loading = 'lazy';
+    img.referrerPolicy = 'no-referrer';
+    img.addEventListener('error', () => {
+      img.remove();
+      av.textContent = initials(link.name);
+      av.style.background = gradientFor(link.name);
+    });
+    av.appendChild(img);
+  } else {
+    av.textContent = initials(link.name);
+    av.style.background = gradientFor(link.name);
+  }
+
+  /* Info */
+  const info = document.createElement('div');
+  info.className = 'info';
+
+  const nm = document.createElement('div');
+  nm.className = 'name';
+  nm.textContent = link.name;
+  if (link.favorite) {
+    const star = document.createElement('span');
+    star.className = 'star-badge';
+    star.textContent = '★';
+    nm.appendChild(star);
+  }
+  info.appendChild(nm);
+
+  if (link.tags && link.tags.length) {
+    const tagsWrap = document.createElement('div');
+    tagsWrap.className = 'tags';
+    link.tags.forEach(t => {
+      const pill = document.createElement('span');
+      pill.className = 'tag-pill';
+      pill.textContent = '#' + t;
+      tagsWrap.appendChild(pill);
+    });
+    info.appendChild(tagsWrap);
+  } else {
+    const meta = document.createElement('div');
+    meta.className = 'meta';
+    meta.textContent = 'Bấm để mở';
+    info.appendChild(meta);
+  }
+
+  row.append(av, info);
+
+  /* Actions */
+  const acts = document.createElement('div');
+  acts.className = 'actions';
+
+  /* Chevron hiển thị khi không phải admin */
+  const chev = document.createElement('div');
+  chev.className = 'chevron';
+  chev.textContent = '›';
+  if (!isAdmin) acts.appendChild(chev);
+
+  if (isAdmin) {
+    /* Copy URL */
+    const copyBtn = document.createElement('button');
+    copyBtn.className = 'icon-btn admin-only';
+    copyBtn.type = 'button';
+    copyBtn.title = 'Copy URL';
+    copyBtn.textContent = '📋';
+    copyBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      navigator.clipboard.writeText(link.url).then(
+        () => toast('✦ Đã copy URL'),
+        () => toast('⚠ Không copy được')
+      );
+    });
+
+    /* Yêu thích */
+    const favBtn = document.createElement('button');
+    favBtn.className = 'icon-btn gold admin-only' + (link.favorite ? ' active' : '');
+    favBtn.type = 'button';
+    favBtn.title = link.favorite ? 'Bỏ yêu thích' : 'Yêu thích';
+    favBtn.textContent = '★';
+    favBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      link.favorite = !link.favorite;
+      saveLinks(); render();
+    });
+
+    /* Sửa */
+    const editBtn = document.createElement('button');
+    editBtn.className = 'icon-btn admin-only';
+    editBtn.type = 'button';
+    editBtn.title = 'Sửa';
+    editBtn.textContent = '✎';
+    editBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      openEditor(link.id);
+    });
+
+    /* Xoá */
+    const delBtn = document.createElement('button');
+    delBtn.className = 'icon-btn danger admin-only';
+    delBtn.type = 'button';
+    delBtn.title = 'Xoá';
+    delBtn.textContent = '✕';
+    delBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      askDelete(link.id);
+    });
+
+    acts.append(copyBtn, favBtn, editBtn, delBtn);
+  }
+
+  row.appendChild(acts);
+
+  /* Click mở link */
+  row.addEventListener('click', e => {
+    if (e.target.closest('.actions') || e.target.closest('.drag-handle')) return;
+    if (!link.url) return;
+    window.open(link.url, '_blank', 'noopener,noreferrer');
+  });
+
+  return row;
+}
+
+/* =========================================================
+   ADMIN
+   ========================================================= */
+function unlockAdmin() {
+  if (isAdmin) return;
+  isAdmin = true;
+  document.body.classList.add('admin');
+  document.getElementById('adminBar').hidden = false;
+  render();
+  toast('✦ Đã mở khoá ADMIN');
+  setTimeout(() => openEditor(null), 320);
+}
+
+function lockAdmin() {
+  if (!isAdmin) return;
+  isAdmin = false;
+  document.body.classList.remove('admin');
+  document.getElementById('adminBar').hidden = true;
+  closeModal(); closeExport(); closeImport(); closeConfirm();
+  render();
+  toast('Đã khoá ADMIN');
+}
+
+const codeInput = document.getElementById('codeInput');
+codeInput.addEventListener('input', () => {
+  if (codeInput.value === ADMIN_CODE) {
+    codeInput.value = '';
+    codeInput.blur();
+    unlockAdmin();
+  }
+});
+codeInput.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && codeInput.value === ADMIN_CODE) {
+    codeInput.value = '';
+    codeInput.blur();
+    unlockAdmin();
+  }
+});
+
+/* =========================================================
+   MODAL THÊM / SỬA
+   ========================================================= */
+const modal       = document.getElementById('modal');
+const fName       = document.getElementById('fName');
+const fUrl        = document.getElementById('fUrl');
+const fTags       = document.getElementById('fTags');
+const fFavorite   = document.getElementById('fFavorite');
+const previewAv   = document.getElementById('previewAvatar');
+const clearAvBtn  = document.getElementById('clearAvatarBtn');
+
+function openEditor(id) {
+  editingId = id || null;
+  const link = id ? links.find(l => l.id === id) : null;
+
+  document.getElementById('modalTitle').textContent = link ? 'Sửa link' : 'Thêm link mới';
+  fName.value     = link ? link.name : '';
+  fUrl.value      = link ? link.url  : '';
+  fTags.value     = link ? (link.tags || []).join(', ') : '';
+  fFavorite.checked = link ? !!link.favorite : false;
+  pendingAvatar   = link ? (link.avatar || '') : '';
+
+  updateAvatarPreview();
+  modal.hidden = false;
+  setTimeout(() => fName.focus(), 80);
+}
+
+function updateAvatarPreview() {
+  const name = fName.value.trim() || '?';
+  previewAv.innerHTML = '';
+  if (pendingAvatar) {
+    const img = document.createElement('img');
+    img.src = pendingAvatar;
+    img.alt = '';
+    previewAv.appendChild(img);
+    clearAvBtn.style.display = '';
+  } else {
+    previewAv.textContent = initials(name);
+    previewAv.style.background = gradientFor(name);
+    clearAvBtn.style.display = 'none';
+  }
+}
+
+fName.addEventListener('input', updateAvatarPreview);
+
+/* Upload file */
+document.getElementById('fileLibrary').addEventListener('change', handleFile);
+document.getElementById('fileCamera').addEventListener('change', handleFile);
+
+async function handleFile(e) {
+  const file = e.target.files && e.target.files[0];
+  e.target.value = '';
+  if (!file) return;
+  try {
+    const dataURL = await fileToCompressedDataURL(file);
+    pendingAvatar = dataURL;
+    updateAvatarPreview();
+    toast('✦ Đã nạp ảnh');
+  } catch (err) {
+    toast('⚠ Không đọc được ảnh');
+  }
+}
+
+clearAvBtn.addEventListener('click', () => {
+  pendingAvatar = '';
+  updateAvatarPreview();
+});
+
+function closeModal() { modal.hidden = true; editingId = null; pendingAvatar = ''; }
+
+function saveEditor() {
+  const name = fName.value.trim();
+  let url    = fUrl.value.trim();
+  const tagsRaw = fTags.value.trim();
+  const favorite = fFavorite.checked;
+
+  if (!name) { toast('⚠ Nhập TÊN link'); fName.focus(); return; }
+  if (!url)  { toast('⚠ Nhập LINK / URL'); fUrl.focus();  return; }
+  if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
+
+  const tags = tagsRaw
+    ? [...new Set(tagsRaw.split(',').map(t => t.trim().toLowerCase()).filter(Boolean))].slice(0, 8)
+    : [];
+
+  if (editingId) {
+    const l = links.find(x => x.id === editingId);
+    if (l) {
+      l.name = name; l.url = url; l.tags = tags;
+      l.favorite = favorite; l.avatar = pendingAvatar;
+    }
+    toast('✦ Đã cập nhật');
+  } else {
+    links.unshift({
+      id: uid(), name, url, tags, favorite,
+      avatar: pendingAvatar
+    });
+    toast('✦ Đã thêm — bấm Export để đưa lên GitHub');
+  }
+
+  if (saveLinks() === false) return;
+  render();
+  closeModal();
+}
+
+/* =========================================================
+   XOÁ CÓ XÁC NHẬN
+   ========================================================= */
+const confirmModal = document.getElementById('confirmModal');
+
+function askDelete(id) {
+  const link = links.find(l => l.id === id);
+  if (!link) return;
+  deletingId = id;
+  document.getElementById('confirmText').innerHTML =
+    `Bạn có chắc muốn xoá <b>${escapeHtml(link.name)}</b>?<br><span style="opacity:.5;font-size:.78rem">Hành động này không thể hoàn tác.</span>`;
+  confirmModal.hidden = false;
+}
+function closeConfirm() { confirmModal.hidden = true; deletingId = null; }
+
+document.getElementById('confirmCancel').addEventListener('click', closeConfirm);
+document.getElementById('confirmDelete').addEventListener('click', () => {
+  if (!deletingId) return;
+  links = links.filter(l => l.id !== deletingId);
+  saveLinks(); render();
+  closeConfirm();
+  toast('✦ Đã xoá');
+});
+confirmModal.addEventListener('click', e => { if (e.target === confirmModal) closeConfirm(); });
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[c]));
+}
+
+/* =========================================================
+   EXPORT
+   ========================================================= */
+const exportModal = document.getElementById('exportModal');
+
+function openExport() {
+  document.getElementById('exportArea').value = JSON.stringify(links, null, 2);
+  exportModal.hidden = false;
+}
+function closeExport() { exportModal.hidden = true; }
+
+document.getElementById('copyBtn').addEventListener('click', async () => {
+  const area = document.getElementById('exportArea');
+  try {
+    await navigator.clipboard.writeText(area.value);
+    toast('✦ Đã copy — dán vào DEFAULT_LINKS');
+  } catch (e) {
+    area.select(); document.execCommand('copy');
+    toast('✦ Đã copy — dán vào DEFAULT_LINKS');
+  }
+});
+
+document.getElementById('resetBtn').addEventListener('click', () => {
+  if (!confirm('Xoá hết thay đổi và quay về dữ liệu gốc trong file?')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  links = JSON.parse(JSON.stringify(DEFAULT_LINKS));
+  saveLinks(); render(); closeExport();
+  toast('Đã về mặc định');
+});
+
+/* =========================================================
+   IMPORT
+   ========================================================= */
+const importModal = document.getElementById('importModal');
+const importArea  = document.getElementById('importArea');
+
+function openImport() {
+  importArea.value = '';
+  importModal.hidden = false;
+}
+function closeImport() { importModal.hidden = true; }
+
+document.getElementById('importFile').addEventListener('change', e => {
+  const file = e.target.files && e.target.files[0];
+  e.target.value = '';
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => { importArea.value = ev.target.result; };
+  reader.readAsText(file);
+});
+
+document.getElementById('importConfirm').addEventListener('click', () => {
+  const raw = importArea.value.trim();
+  if (!raw) { toast('⚠ Chưa có dữ liệu'); return; }
+  let data;
+  try { data = JSON.parse(raw); }
+  catch { toast('⚠ JSON không hợp lệ'); return; }
+  if (!Array.isArray(data)) { toast('⚠ Phải là mảng JSON'); return; }
+
+  const cleaned = data
+    .filter(x => x && typeof x.name === 'string' && typeof x.url === 'string')
+    .map(x => ({
+      id: uid(),
+      name: x.name.trim().slice(0, 80),
+      url: x.url.trim(),
+      avatar: typeof x.avatar === 'string' ? x.avatar : '',
+      tags: Array.isArray(x.tags)
+        ? x.tags.map(t => String(t).trim().toLowerCase()).filter(Boolean).slice(0, 8)
+        : [],
+      favorite: !!x.favorite
+    }));
+
+  if (!cleaned.length) { toast('⚠ Không có link hợp lệ'); return; }
+  if (!confirm(`Thay thế ${links.length} link hiện tại bằng ${cleaned.length} link mới?`)) return;
+
+  links = cleaned;
+  saveLinks(); render(); closeImport();
+  toast(`✦ Đã nhập ${cleaned.length} link`);
+});
+
+/* =========================================================
+   SỰ KIỆN
+   ========================================================= */
+document.getElementById('addBtn').addEventListener('click', () => openEditor(null));
+document.getElementById('exportBtn').addEventListener('click', openExport);
+document.getElementById('importBtn').addEventListener('click', openImport);
+document.getElementById('exitBtn').addEventListener('click', lockAdmin);
+
+document.getElementById('saveBtn').addEventListener('click', saveEditor);
+document.getElementById('cancelBtn').addEventListener('click', closeModal);
+document.getElementById('closeModal').addEventListener('click', closeModal);
+document.getElementById('closeExport').addEventListener('click', closeExport);
+document.getElementById('closeImport').addEventListener('click', closeImport);
+document.getElementById('importCancel').addEventListener('click', closeImport);
+
+modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+exportModal.addEventListener('click', e => { if (e.target === exportModal) closeExport(); });
+importModal.addEventListener('click', e => { if (e.target === importModal) closeImport(); });
+
+searchInput.addEventListener('input', () => {
+  searchQ = searchInput.value;
+  render();
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeModal(); closeExport(); closeImport(); closeConfirm(); }
+  if (e.key === 'Enter' && !modal.hidden) {
+    const tag = document.activeElement.tagName;
+    if (tag === 'INPUT' && document.activeElement !== document.getElementById('fileLibrary') && document.activeElement !== document.getElementById('fileCamera')) {
+      e.preventDefault();
+      saveEditor();
+    }
+  }
+  /* Ctrl/Cmd + K để focus search */
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+    e.preventDefault();
+    searchInput.focus();
+  }
+});
+
+/* =========================================================
+   KHỞI ĐỘNG
+   ========================================================= */
+render();
+</script>
+</body>
+</html>
